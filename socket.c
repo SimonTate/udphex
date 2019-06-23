@@ -9,6 +9,7 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #define PORT 162
+#define IP_ADDRESS "127.0.0.1"
 
 int chartohex(char* ch)
 {
@@ -138,7 +139,7 @@ int main(int argc, char const *argv[])
         serv_addr.sin_port = htons(PORT);
         
         // Convert IPv4 and IPv6 addresses from text to binary form
-        if(valid && inet_pton(AF_INET, "8.8.8.8", &serv_addr.sin_addr)<=0)
+        if(valid && inet_pton(AF_INET, IP_ADDRESS, &serv_addr.sin_addr)<=0)
         {
             fprintf(stderr, "\nInvalid address/ Address not supported \n");
             valid = 0;
@@ -155,9 +156,9 @@ int main(int argc, char const *argv[])
             valid = (send(sock, sendbuf, hex_size, 0) > -1);
             printf("Message sent\n");
 //            printf("Waiting for response..\n");
-//            valread = read( sock , buffer, sizeof(buffer)*sizeof(char));
-//            printf("RESPONSE: %s\n",buffer );
-            close (sock);
+//            valread = read(sock, buffer, sizeof(buffer)*sizeof(char));
+//            printf("RESPONSE: %s\n", buffer);
+            close(sock);
         }
         
         usleep(1*1000*1000);
